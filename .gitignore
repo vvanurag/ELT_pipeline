@@ -1,0 +1,46 @@
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+elt_env/
+*.egg-info/
+dist/
+build/
+
+# Environment Variables & Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+profiles.yml
+
+# dbt Artifacts
+target/
+dbt_packages/
+logs/
+
+# Airflow Artifacts
+airflow.db
+airflow.cfg
+airflow-webserver.pid
+standalone_admin_password.txt
+.astro/
+
+# Documentation Site Build
+site/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

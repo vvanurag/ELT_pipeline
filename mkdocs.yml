@@ -1,0 +1,68 @@
+site_name: ELT Pipeline Engineering
+site_description: Production-grade ELT pipeline with Snowflake, dbt Core, and Apache Airflow on macOS with OrbStack.
+site_author: Anurag V V
+site_url: https://vvanurag.github.io/ELT_pipeline/
+repo_url: https://github.com/vvanurag/ELT_pipeline
+repo_name: vvanurag/ELT_pipeline
+
+theme:
+  name: material
+  palette:
+    # Scheme mode: light
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Scheme mode: dark
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+    - content.code.annotate
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - tables
+  - attr_list
+
+nav:
+  - Home: index.md
+  - Architecture & Concepts:
+      - ELT vs ETL: concepts/elt_vs_etl.md
+      - Dimensional Modeling: concepts/dimensional_modeling.md
+      - Modern Data Stack: concepts/modern_data_stack.md
+  - Infrastructure Setup:
+      - Snowflake RBAC & DWH: setup/snowflake.md
+      - Local Environment & OrbStack: setup/local_environment.md
+  - Pipeline & Modeling (dbt):
+      - Staging Layer: pipeline/staging.md
+      - Fact & Marts Layer: pipeline/marts.md
+      - Testing & Macros: pipeline/testing.md
+  - Orchestration (Airflow):
+      - Astro & Cosmos Architecture: orchestration/airflow_cosmos.md
+      - Running DAGs in Docker: orchestration/running_dags.md
