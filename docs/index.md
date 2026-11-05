@@ -62,6 +62,7 @@ flowchart LR
 
 [Video Walkthrough: ELT in 1 Hour](tutorials/elt_pipeline_video_walkthrough.md){ .md-button .md-button--primary }
 [Data Engineering Architectures & Tooling](tutorials/data_engineering_architectures_and_tooling.md){ .md-button }
+[1. SQL & Data Modeling](tutorials/sql_and_data_modeling.md){ .md-button }
 
 ### Video Walkthrough: Table of Contents
 
