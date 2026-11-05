@@ -22,3 +22,4 @@ Written as standalone SQL queries in the `tests/` directory. If the query return
 Macros are reusable functions written in Jinja/SQL:
 - Money and pricing calculations (e.g. discounting and tax functions).
 - Date standardizations and timezone conversions.
+

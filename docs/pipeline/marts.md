@@ -13,3 +13,4 @@ The Marts layer houses business-facing models, including Fact tables and Dimensi
 
 ## 💾 Materialization Strategy
 Unlike staging models (views), marts are materialized as **`table`** or **`incremental`** to ensure fast query response times for BI tools.
+

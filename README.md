@@ -127,3 +127,4 @@ cd airflow
 astro dev start
 ```
 Airflow UI will be available at `http://localhost:8080`.
+

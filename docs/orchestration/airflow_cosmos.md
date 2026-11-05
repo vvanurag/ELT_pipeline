@@ -13,3 +13,4 @@ Traditionally, running dbt in Airflow involved either:
 * Native DAG visualization matching your dbt lineage graph.
 * Granular task retries on failure.
 * Direct logs per model inside the Airflow UI.
+

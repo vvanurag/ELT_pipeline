@@ -66,3 +66,4 @@ Our dbt project organizes dimensional models into structured layers:
 2. **Staging (`stg_`):** 1-to-1 view wrappers on raw sources; cleans column names, casts datatypes, and trims whitespace.
 3. **Intermediate (`int_`):** Joins and complex business calculations between staging models.
 4. **Marts (`fct_`, `dim_`):** Business-facing fact and dimension tables ready for BI visualization.
+

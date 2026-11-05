@@ -64,3 +64,4 @@ flowchart LR
 - [Local Environment & OrbStack](setup/local_environment.md): Setting up Conda, Python 3.11, dbt, and OrbStack.
 - [ELT vs ETL Architecture](concepts/elt_vs_etl.md): Why modern data platforms favor ELT over traditional ETL.
 - [Dimensional Modeling](concepts/dimensional_modeling.md): Kimball methodology, star schemas, fact tables, and dimension tables.
+

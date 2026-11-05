@@ -85,3 +85,4 @@ GRANT ROLE DBT_ROLE TO ROLE SYSADMIN;
 | **Warehouse** | `TRANSFORM_WH` | Size: X-Small with 60s auto-suspend |
 | **Database** | `DEMO_DWH` | Primary database for transformed data |
 | **Schema** | `DEV_STAGING` | Default staging landing schema |
+

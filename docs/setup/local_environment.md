@@ -77,3 +77,4 @@ pip install mkdocs-material mkdocs-mermaid2-plugin
 mkdocs serve
 ```
 Open `http://localhost:8000` in your browser.
+

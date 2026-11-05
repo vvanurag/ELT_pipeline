@@ -66,3 +66,6 @@ nav:
   - Orchestration (Airflow):
       - Astro & Cosmos Architecture: orchestration/airflow_cosmos.md
       - Running DAGs in Docker: orchestration/running_dags.md
+
+  - Tutorials:
+      - "Video Walkthrough: ELT in 1 Hour": tutorials/elt_pipeline_video_walkthrough.md

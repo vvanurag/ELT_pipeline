@@ -42,3 +42,4 @@ flowchart TD
 1. **Storage is cheap, compute is elastic:** Cloud platforms like Snowflake decouple compute from storage. You can store petabytes of raw data at low cost and spin up compute clusters only when transformations execute.
 2. **dbt Pushdown Optimization:** dbt does not move data out of Snowflake. Instead, it compiles SQL `SELECT` statements into DDL/DML (`CREATE VIEW AS`, `CREATE TABLE AS`) executed directly inside Snowflake.
 3. **Data Democratization:** Analysts and analytics engineers write standard SQL rather than depending on specialized data infrastructure engineers for every schema adjustment.
+
