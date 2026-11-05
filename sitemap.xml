@@ -2,46 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
+    </url>
+    <url>
+         <loc>https://vvanurag.github.io/ELT_pipeline/to_do/</loc>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/concepts/dimensional_modeling/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/concepts/elt_vs_etl/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/concepts/modern_data_stack/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/orchestration/airflow_cosmos/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/orchestration/running_dags/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/pipeline/marts/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/pipeline/staging/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/pipeline/testing/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/setup/local_environment/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
     </url>
     <url>
          <loc>https://vvanurag.github.io/ELT_pipeline/setup/snowflake/</loc>
-         <lastmod>2026-11-01</lastmod>
+         <lastmod>2026-11-05</lastmod>
+    </url>
+    <url>
+         <loc>https://vvanurag.github.io/ELT_pipeline/tutorials/elt_pipeline_video_walkthrough/</loc>
+         <lastmod>2026-11-05</lastmod>
     </url>
 </urlset>
