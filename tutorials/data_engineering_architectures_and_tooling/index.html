@@ -1,0 +1,1875 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Production-grade ELT pipeline with Snowflake, dbt Core, and Apache Airflow on macOS with OrbStack.">
+      
+      
+        <meta name="author" content="Anurag V V">
+      
+      
+        <link rel="canonical" href="https://vvanurag.github.io/ELT_pipeline/tutorials/data_engineering_architectures_and_tooling/">
+      
+      
+        <link rel="prev" href="../elt_pipeline_video_walkthrough/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.0">
+    
+    
+      
+        <title>Architectures & Tooling Reference - ELT Pipeline Engineering</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.57a0d79d.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.fb2fffe2.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#data-engineering-ai-engineering-architecture-tooling-and-frameworks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="ELT Pipeline Engineering" class="md-header__button md-logo" aria-label="ELT Pipeline Engineering" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ELT Pipeline Engineering
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architectures & Tooling Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/vvanurag/ELT_pipeline" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    vvanurag/ELT_pipeline
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../concepts/elt_vs_etl/" class="md-tabs__link">
+          
+  
+  
+  Architecture & Concepts
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../setup/snowflake/" class="md-tabs__link">
+          
+  
+  
+  Infrastructure Setup
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../pipeline/staging/" class="md-tabs__link">
+          
+  
+  
+  Pipeline & Modeling (dbt)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../orchestration/airflow_cosmos/" class="md-tabs__link">
+          
+  
+  
+  Orchestration (Airflow)
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../elt_pipeline_video_walkthrough/" class="md-tabs__link">
+          
+  
+  
+  Tutorials
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ELT Pipeline Engineering" class="md-nav__button md-logo" aria-label="ELT Pipeline Engineering" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    ELT Pipeline Engineering
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/vvanurag/ELT_pipeline" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    vvanurag/ELT_pipeline
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture & Concepts
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture & Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/elt_vs_etl/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ELT vs ETL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/dimensional_modeling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dimensional Modeling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../concepts/modern_data_stack/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern Data Stack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Infrastructure Setup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Infrastructure Setup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/snowflake/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Snowflake RBAC & DWH
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../setup/local_environment/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Environment & OrbStack
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pipeline & Modeling (dbt)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Pipeline & Modeling (dbt)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipeline/staging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Staging Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipeline/marts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fact & Marts Layer
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pipeline/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing & Macros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestration (Airflow)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Orchestration (Airflow)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../orchestration/airflow_cosmos/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Astro & Cosmos Architecture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../orchestration/running_dags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Running DAGs in Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tutorials
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Tutorials
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../elt_pipeline_video_walkthrough/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Video Walkthrough: ELT in 1 Hour
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architectures & Tooling Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architectures & Tooling Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-architectural-foundations-etl-vs-elt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architectural Foundations: ETL vs. ELT
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-modern-cloud-platforms-snowflake-vs-databricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Modern Cloud Platforms: Snowflake vs. Databricks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-medallion-architecture-bronze-silver-gold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Medallion Architecture (Bronze → Silver → Gold)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-flowchart-1-data-engineering-for-ai-generative-ai-llms-rag-mlops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Flowchart 1: Data Engineering for AI &amp; Generative AI (LLMs, RAG &amp; MLOps)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Flowchart 1: Data Engineering for AI &amp; Generative AI (LLMs, RAG &amp; MLOps)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-pipeline-stage-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Pipeline Stage Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-flowchart-2-data-engineering-in-the-it-enterprise-modern-lakehouse-bi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Flowchart 2: Data Engineering in the IT Enterprise (Modern Lakehouse &amp; BI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Flowchart 2: Data Engineering in the IT Enterprise (Modern Lakehouse &amp; BI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enterprise-pipeline-stage-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enterprise Pipeline Stage Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-enterprise-it-vs-ai-data-engineering-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Enterprise IT vs. AI Data Engineering Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fastapi-production-pattern-for-data-ai-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. FastAPI Production Pattern for Data &amp; AI Retrieval
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-architectural-foundations-etl-vs-elt" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Architectural Foundations: ETL vs. ELT
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-modern-cloud-platforms-snowflake-vs-databricks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Modern Cloud Platforms: Snowflake vs. Databricks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-the-medallion-architecture-bronze-silver-gold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. The Medallion Architecture (Bronze → Silver → Gold)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-flowchart-1-data-engineering-for-ai-generative-ai-llms-rag-mlops" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Flowchart 1: Data Engineering for AI &amp; Generative AI (LLMs, RAG &amp; MLOps)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Flowchart 1: Data Engineering for AI &amp; Generative AI (LLMs, RAG &amp; MLOps)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ai-pipeline-stage-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Pipeline Stage Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-flowchart-2-data-engineering-in-the-it-enterprise-modern-lakehouse-bi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. Flowchart 2: Data Engineering in the IT Enterprise (Modern Lakehouse &amp; BI)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. Flowchart 2: Data Engineering in the IT Enterprise (Modern Lakehouse &amp; BI)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enterprise-pipeline-stage-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enterprise Pipeline Stage Breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-enterprise-it-vs-ai-data-engineering-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Enterprise IT vs. AI Data Engineering Comparison
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-fastapi-production-pattern-for-data-ai-retrieval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. FastAPI Production Pattern for Data &amp; AI Retrieval
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="data-engineering-ai-engineering-architecture-tooling-and-frameworks">Data Engineering &amp; AI Engineering: Architecture, Tooling, and Frameworks</h1>
+<p>This guide provides a comprehensive reference mapping the tools, frameworks, environments, and libraries across data engineering stages for both <strong>AI &amp; Generative AI Systems</strong> and <strong>Enterprise IT / Lakehouse Architectures</strong>.</p>
+<hr />
+<h2 id="1-architectural-foundations-etl-vs-elt">1. Architectural Foundations: ETL vs. ELT</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ETL (Traditional)
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>[ Sources ] ──&gt; [ Extract ] ──&gt; [ Transform (Spark / Airflow) ] ──&gt; [ Load into DWH ]
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>ELT (Modern Cloud)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>[ Sources ] ──&gt; [ Extract ] ──&gt; [ Load (Object Storage / Lake) ] ──&gt; [ Transform inside Warehouse / Lakehouse ]
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimension</th>
+<th style="text-align: left;">ETL (Extract, Transform, Load)</th>
+<th style="text-align: left;">ELT (Extract, Load, Transform)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Compute Engine</strong></td>
+<td style="text-align: left;">Dedicated external compute engine (Informatica, Talend, custom Spark cluster).</td>
+<td style="text-align: left;">Cloud Data Platform (Snowflake Virtual Warehouses, Databricks Spark/Photon, BigQuery).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Storage Strategy</strong></td>
+<td style="text-align: left;">Only transformed / modeled data reaches the final analytical warehouse.</td>
+<td style="text-align: left;">Raw data lands immediately in object storage or data tables.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Flexibility</strong></td>
+<td style="text-align: left;">Rigid. Schema changes require modifying extraction &amp; transformation code.</td>
+<td style="text-align: left;">High. Raw data is preserved, allowing re-processing and retrospective queries.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Speed to Ingest</strong></td>
+<td style="text-align: left;">Slower (bottlenecked by transformation stage).</td>
+<td style="text-align: left;">Rapid (bulk ingestion happens first).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Compliance / Privacy</strong></td>
+<td style="text-align: left;">Anonymization/masking happens <em>before</em> landing in storage.</td>
+<td style="text-align: left;">Masking/RBAC/governance applied at transformation or via row/column policies.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Modern Stack</strong></td>
+<td style="text-align: left;">Spark, PySpark, Airflow (orchestration).</td>
+<td style="text-align: left;">Fivetran/Airbyte (Extract/Load) + dbt/SQL/Spark (Transform).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-modern-cloud-platforms-snowflake-vs-databricks">2. Modern Cloud Platforms: Snowflake vs. Databricks</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>┌────────────────────────────────────────────────────────┐
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>│                      dbt / SQL / BI                    │
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>└───────────────┬────────────────────────┬───────────────┘
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>                │                        │
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>       ┌────────▼────────┐      ┌────────▼────────┐
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>       │    Snowflake    │      │   Databricks    │
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>       │ Virtual Whs     │      │ Apache Spark    │
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>       │ Dynamic Tables  │      │ Delta Live Tabs │
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>       │ Snowpark        │      │ Unity Catalog   │
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>       └────────┬────────┘      └────────┬────────┘
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>                │                        │
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>       ┌────────▼────────────────────────▼────────┐
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>       │   Cloud Object Storage (S3 / GCS / Azure)│
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>       │          Open Formats (Delta / Iceberg)  │
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>       └──────────────────────────────────────────┘
+</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Snowflake</th>
+<th style="text-align: left;">Databricks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Core Heritage</strong></td>
+<td style="text-align: left;">Cloud-native Data Warehouse (SaaS, SQL-first).</td>
+<td style="text-align: left;">Managed Apache Spark / Lakehouse (code-first, Python/Scala).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Architecture</strong></td>
+<td style="text-align: left;">Separated storage and multi-cluster shared compute (Virtual Warehouses).</td>
+<td style="text-align: left;">Lakehouse architecture using Delta Lake format on your cloud storage buckets.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Transformation Paradigm</strong></td>
+<td style="text-align: left;">SQL, Dynamic Tables, Streams &amp; Tasks, Snowpark (Python/DataFrames).</td>
+<td style="text-align: left;">Spark SQL, PySpark, Delta Live Tables (DLT).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Open Formats</strong></td>
+<td style="text-align: left;">Proprietary micro-partitions, full read/write support for Apache Iceberg.</td>
+<td style="text-align: left;">Delta Lake (Linux Foundation open source standard).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Data Governance</strong></td>
+<td style="text-align: left;">Horizon Catalog (built-in tags, masking policies, row access policies).</td>
+<td style="text-align: left;">Unity Catalog (centralized governance across data, AI models, and files).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Best Suited For</strong></td>
+<td style="text-align: left;">Enterprise analytics, SQL reporting, BI dashboards, low operational overhead.</td>
+<td style="text-align: left;">Heavy transformations, machine learning, unstructured data, complex streaming, end-to-end AI/ML.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-the-medallion-architecture-bronze-silver-gold">3. The Medallion Architecture (Bronze → Silver → Gold)</h2>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>[ Raw Sources ]
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>       │ (APIs, Databases, Event Streams)
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>       ▼
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>┌──────────────────┐
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>│   BRONZE LAYER   │  Raw, append-only ingestion with source metadata
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>│   (Raw / Staging)│  (timestamps, source origins, raw JSON payloads).
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>└────────┬─────────┘
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>         │  Cleaning, deduplication, schema enforcement, filtering
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>         ▼
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>┌──────────────────┐
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>│   SILVER LAYER   │  Enriched, cleaned, standardized enterprise data model
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>│   (Cleansed)     │  (conformed dimensions, parsed customer details, valid records).
+</span><span id="__span-2-13"><a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a>└────────┬─────────┘
+</span><span id="__span-2-14"><a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>         │  Aggregations, business metrics, star schemas (Fact / Dimension)
+</span><span id="__span-2-15"><a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a>         ▼
+</span><span id="__span-2-16"><a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a>┌──────────────────┐
+</span><span id="__span-2-17"><a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a>│    GOLD LAYER    │  Consumption-ready data for BI, reporting,
+</span><span id="__span-2-18"><a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a>│   (Curated)      │  ML feature stores, and RAG retrieval indexes.
+</span><span id="__span-2-19"><a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a>└──────────────────┘
+</span></code></pre></div>
+<hr />
+<h2 id="4-flowchart-1-data-engineering-for-ai-generative-ai-llms-rag-mlops">4. Flowchart 1: Data Engineering for AI &amp; Generative AI (LLMs, RAG &amp; MLOps)</h2>
+<p>This pipeline illustrates how unstructured and semi-structured enterprise data flows into vector databases, feature stores, and real-time inference endpoints for AI applications.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph Stage1["1. Ingestion &amp; Document Parsing"]
+        subgraph S1_Docs["Unstructured Document Parsers"]
+            P1["Unstructured.io"]
+            P2["LlamaParse"]
+            P3["PyMuPDF / pdfplumber"]
+        end
+        subgraph S1_Scrape["Web &amp; API Scrapers"]
+            S1["BeautifulSoup / Scrapy"]
+            S2["Playwright / Selenium"]
+        end
+        subgraph S1_Change["Change Data Capture (CDC)"]
+            C1["Debezium / Kafka Connect"]
+        end
+    end
+
+    subgraph Stage2["2. Processing, Chunking &amp; Feature Pipelines"]
+        subgraph S2_Compute["Distributed &amp; In-Memory Compute"]
+            E1["Apache Spark / PySpark"]
+            E2["Ray (Distributed AI Compute)"]
+            E3["DuckDB / Polars"]
+        end
+        subgraph S2_NLP["Tokenization &amp; Chunking"]
+            T1["LangChain TextSplitters"]
+            T2["LlamaIndex Node Parsers"]
+            T3["tiktoken / spaCy"]
+        end
+    end
+
+    subgraph Stage3["3. Embeddings &amp; Feature Storage"]
+        subgraph S3_Embed["Embedding Inference Models"]
+            M1["OpenAI (text-embedding-3)"]
+            M2["Hugging Face (sentence-transformers)"]
+            M3["Voyage AI / Cohere Embed"]
+        end
+        subgraph S3_Features["Feature &amp; Vector Stores"]
+            V1["Vector DBs (Pinecone, Qdrant, Milvus, Weaviate)"]
+            V2["Hybrid Stores (pgvector, Elasticsearch, OpenSearch)"]
+            F1["Feature Stores (Feast, Databricks Feature Store)"]
+        end
+    end
+
+    subgraph Stage4["4. Serving, Retrieval &amp; Agent Interfaces"]
+        subgraph S4_API["Serving Frameworks"]
+            A1["FastAPI"]
+            A2["vLLM / Ollama (Model Serving)"]
+            A3["LangServe"]
+        end
+        subgraph S4_Rerank["Advanced Reranking &amp; Hybrid Search"]
+            R1["Cohere Rerank / BGE Reranker"]
+            R2["BM25 Keyword Search"]
+        end
+    end
+
+    subgraph Stage5["5. Observability, Evaluation &amp; Guardrails"]
+        subgraph S5_Eval["Evaluation Frameworks"]
+            O1["Ragas / TruLens"]
+            O2["LangSmith / Phoenix (Arize)"]
+        end
+        subgraph S5_Guard["Safety &amp; Guardrails"]
+            G1["NeMo Guardrails / Guardrails AI"]
+        end
+    end
+
+    %% Flow Connections
+    Stage1 --&gt; Stage2
+    Stage2 --&gt; Stage3
+    Stage3 --&gt; Stage4
+    Stage4 --&gt; Stage5</code></pre>
+<h3 id="ai-pipeline-stage-breakdown">AI Pipeline Stage Breakdown</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Stage</th>
+<th style="text-align: left;">Key Objective</th>
+<th style="text-align: left;">Primary Technologies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1. Parsing &amp; Extraction</strong></td>
+<td style="text-align: left;">Convert messy PDFs, markdown, HTML, and audio into machine-readable text while keeping metadata intact.</td>
+<td style="text-align: left;"><code>Unstructured.io</code>, <code>LlamaParse</code>, <code>PyMuPDF</code>, <code>Playwright</code>, <code>Debezium</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. Processing &amp; Chunking</strong></td>
+<td style="text-align: left;">Parallel preprocessing and semantic splitting (fixed-size, markdown-aware, or token-based).</td>
+<td style="text-align: left;"><code>Ray</code>, <code>PySpark</code>, <code>Polars</code>, <code>LangChain Splitters</code>, <code>tiktoken</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3. Embeddings &amp; Stores</strong></td>
+<td style="text-align: left;">Transform clean text tokens into high-dimensional vectors and index them for similarity search.</td>
+<td style="text-align: left;"><code>sentence-transformers</code>, <code>Pinecone</code>, <code>Qdrant</code>, <code>pgvector</code>, <code>Feast</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. Serving &amp; Retrieval</strong></td>
+<td style="text-align: left;">Expose fast API query endpoints, combine semantic search with BM25 keyword search, and apply reranking.</td>
+<td style="text-align: left;"><code>FastAPI</code>, <code>vLLM</code>, <code>Cohere Rerank</code>, <code>LangServe</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5. Observability &amp; Guardrails</strong></td>
+<td style="text-align: left;">Track token costs, monitor context hallucination, and prevent prompt injection before sending prompts to the LLM.</td>
+<td style="text-align: left;"><code>LangSmith</code>, <code>Ragas</code>, <code>NeMo Guardrails</code>, <code>Phoenix</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="5-flowchart-2-data-engineering-in-the-it-enterprise-modern-lakehouse-bi">5. Flowchart 2: Data Engineering in the IT Enterprise (Modern Lakehouse &amp; BI)</h2>
+<p>This pipeline represents the enterprise IT data lifecycle: ingesting relational OLTP databases and SaaS apps, landing them in object storage, structuring them with Medallion architecture, and serving downstream business intelligence.</p>
+<pre class="mermaid"><code>flowchart TD
+    subgraph EStage1["1. Enterprise Sources &amp; Raw Ingestion"]
+        subgraph E1_Src["Source Systems"]
+            Src1["OLTP (PostgreSQL, Oracle, SQL Server)"]
+            Src2["SaaS (Salesforce, SAP, ServiceNow)"]
+            Src3["Logs &amp; Events (Clickstreams, IoT)"]
+        end
+        subgraph E1_Ingest["Ingestion &amp; Transport Tools"]
+            I1["Batch ELT: Fivetran / Airbyte"]
+            I2["CDC: Debezium / AWS DMS"]
+            I3["Streaming: Apache Kafka / Confluent / Redpanda"]
+        end
+    end
+
+    subgraph EStage2["2. Cloud Storage &amp; Open Table Formats (Bronze)"]
+        subgraph E2_Cloud["Object Storage"]
+            CS1["AWS S3 / Azure Data Lake (ADLS Gen2) / GCS"]
+        end
+        subgraph E2_Table["Open Table Formats"]
+            OT1["Delta Lake"]
+            OT2["Apache Iceberg"]
+            OT3["Apache Hudi"]
+        end
+    end
+
+    subgraph EStage3["3. Processing, Modeling &amp; Quality (Silver -&gt; Gold)"]
+        subgraph E3_Compute["Data Platforms &amp; Compute Engines"]
+            D1["Snowflake (Virtual Warehouses, Snowpark)"]
+            D2["Databricks (Spark / Photon Engines)"]
+            D3["Google BigQuery / AWS Redshift"]
+        end
+        subgraph E3_Transform["Data Transformation &amp; Quality"]
+            T1["dbt (data build tool)"]
+            T2["PySpark / Delta Live Tables (DLT)"]
+            T3["Great Expectations / Soda Core"]
+        end
+    end
+
+    subgraph EStage4["4. Orchestration, CI/CD &amp; DataOps"]
+        subgraph E4_Sched["Workflow Orchestrators"]
+            W1["Apache Airflow"]
+            W2["Dagster / Prefect"]
+            W3["Databricks Workflows"]
+        end
+        subgraph E4_DevOps["DataOps &amp; CI/CD Infrastructure"]
+            K1["GitHub Actions"]
+            K2["Docker / Kubernetes (K8s)"]
+            K3["Terraform (Infrastructure as Code)"]
+        end
+    end
+
+    subgraph EStage5["5. Governance, BI &amp; Reverse ELT"]
+        subgraph E5_Gov["Governance &amp; Catalogs"]
+            G1["Unity Catalog / Snowflake Horizon"]
+            G2["Alation / Apache Atlas"]
+        end
+        subgraph E5_Consum["Consumption &amp; Activation"]
+            B1["BI: Power BI / Tableau / Looker"]
+            B2["Reverse ELT: Census / Hightouch"]
+            B3["Data APIs: FastAPI / GraphQL"]
+        end
+    end
+
+    %% Flow Connections
+    EStage1 --&gt; EStage2
+    EStage2 --&gt; EStage3
+    EStage4 -.-&gt; EStage1
+    EStage4 -.-&gt; EStage2
+    EStage4 -.-&gt; EStage3
+    EStage3 --&gt; EStage5</code></pre>
+<h3 id="enterprise-pipeline-stage-breakdown">Enterprise Pipeline Stage Breakdown</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Stage</th>
+<th style="text-align: left;">Key Objective</th>
+<th style="text-align: left;">Primary Technologies</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>1. Enterprise Ingestion</strong></td>
+<td style="text-align: left;">Extract transactional records, operational tables, and change feeds with low source disruption.</td>
+<td style="text-align: left;"><code>Fivetran</code>, <code>Airbyte</code>, <code>Apache Kafka</code>, <code>Debezium</code>, <code>AWS DMS</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>2. Storage &amp; Open Formats</strong></td>
+<td style="text-align: left;">Persist uncompressed raw files with ACID transaction guarantees, time travel, and unified metadata.</td>
+<td style="text-align: left;"><code>AWS S3</code>, <code>ADLS Gen2</code>, <code>Delta Lake</code>, <code>Apache Iceberg</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>3. Compute, Modeling &amp; Quality</strong></td>
+<td style="text-align: left;">Execute SQL/Python transformations to build dimensional models (Star Schemas) with automated test validation.</td>
+<td style="text-align: left;"><code>Snowflake</code>, <code>Databricks</code>, <code>dbt</code>, <code>PySpark</code>, <code>Great Expectations</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>4. Orchestration &amp; DataOps</strong></td>
+<td style="text-align: left;">Coordinate dependency graphs (DAGs), automate testing with Git version control, and provision infrastructure.</td>
+<td style="text-align: left;"><code>Apache Airflow</code>, <code>Dagster</code>, <code>GitHub Actions</code>, <code>Terraform</code>, <code>Docker</code></td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>5. Governance &amp; BI Serving</strong></td>
+<td style="text-align: left;">Centralize role-based access control (RBAC), feed executive dashboards, and push data back into operational tools (CRMs).</td>
+<td style="text-align: left;"><code>Power BI</code>, <code>Tableau</code>, <code>Unity Catalog</code>, <code>Snowflake Horizon</code>, <code>Census</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="6-enterprise-it-vs-ai-data-engineering-comparison">6. Enterprise IT vs. AI Data Engineering Comparison</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Dimension</th>
+<th style="text-align: left;">Enterprise IT Data Engineering</th>
+<th style="text-align: left;">AI &amp; GenAI Data Engineering</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Primary Data Type</strong></td>
+<td style="text-align: left;">Structured / Tabular (Relational, JSON)</td>
+<td style="text-align: left;">Unstructured (Text, PDFs, Audio, Images)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Core Compute Task</strong></td>
+<td style="text-align: left;">SQL joins, aggregations, schema mapping</td>
+<td style="text-align: left;">Chunking, tokenization, vector inference</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Primary Target Store</strong></td>
+<td style="text-align: left;">Data Warehouses (Snowflake, BigQuery)</td>
+<td style="text-align: left;">Vector DBs (Qdrant, Pinecone, pgvector)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>SLA &amp; Freshness</strong></td>
+<td style="text-align: left;">Batch (hourly/daily) or Micro-batch</td>
+<td style="text-align: left;">Real-time semantic retrieval (&lt;100ms)</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Serving Layer</strong></td>
+<td style="text-align: left;">SQL, BI Dashboards (Power BI, Tableau)</td>
+<td style="text-align: left;">REST APIs (FastAPI) &amp; LLM context windows</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-fastapi-production-pattern-for-data-ai-retrieval">7. FastAPI Production Pattern for Data &amp; AI Retrieval</h2>
+<p>Minimal Production-Grade Pattern: Vector Search Service</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">status</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">List</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">(</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    <span class="n">title</span><span class="o">=</span><span class="s2">"Data &amp; Retrieval Service"</span><span class="p">,</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    <span class="n">description</span><span class="o">=</span><span class="s2">"Vector search &amp; data serving endpoint for LLM/RAG pipelines"</span><span class="p">,</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">)</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="c1"># 1. Pydantic Request Model with Schema Validation</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="k">class</span><span class="w"> </span><span class="nc">SearchQuery</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>    <span class="n">query_text</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"User search query"</span><span class="p">)</span>
+</span><span id="__span-3-15"><a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a>    <span class="n">top_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Number of results to retrieve"</span><span class="p">)</span>
+</span><span id="__span-3-16"><a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="n">filter_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">"Optional metadata filter"</span><span class="p">)</span>
+</span><span id="__span-3-17"><a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>
+</span><span id="__span-3-18"><a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="c1"># 2. Response Model</span>
+</span><span id="__span-3-19"><a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="k">class</span><span class="w"> </span><span class="nc">DocumentChunk</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-3-20"><a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a>    <span class="n">chunk_id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-3-21"><a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a>    <span class="n">content</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-3-22"><a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a>    <span class="n">similarity_score</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-3-23"><a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a>    <span class="n">source</span><span class="p">:</span> <span class="nb">str</span>
+</span><span id="__span-3-24"><a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a>
+</span><span id="__span-3-25"><a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a><span class="k">class</span><span class="w"> </span><span class="nc">SearchResponse</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
+</span><span id="__span-3-26"><a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a>    <span class="n">results</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">DocumentChunk</span><span class="p">]</span>
+</span><span id="__span-3-27"><a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a>    <span class="n">execution_time_ms</span><span class="p">:</span> <span class="nb">float</span>
+</span><span id="__span-3-28"><a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a>
+</span><span id="__span-3-29"><a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="c1"># 3. Healthcheck Endpoint (Essential for K8s / Cloud Deployments)</span>
+</span><span id="__span-3-30"><a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/healthz"</span><span class="p">,</span> <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_200_OK</span><span class="p">)</span>
+</span><span id="__span-3-31"><a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="k">def</span><span class="w"> </span><span class="nf">health_check</span><span class="p">():</span>
+</span><span id="__span-3-32"><a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"status"</span><span class="p">:</span> <span class="s2">"healthy"</span><span class="p">,</span> <span class="s2">"timestamp"</span><span class="p">:</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()}</span>
+</span><span id="__span-3-33"><a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a>
+</span><span id="__span-3-34"><a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="c1"># 4. Search Retrieval Endpoint</span>
+</span><span id="__span-3-35"><a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="nd">@app</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"/v1/retrieve"</span><span class="p">,</span> <span class="n">response_model</span><span class="o">=</span><span class="n">SearchResponse</span><span class="p">)</span>
+</span><span id="__span-3-36"><a id="__codelineno-3-36" name="__codelineno-3-36" href="#__codelineno-3-36"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">retrieve_context</span><span class="p">(</span><span class="n">payload</span><span class="p">:</span> <span class="n">SearchQuery</span><span class="p">):</span>
+</span><span id="__span-3-37"><a id="__codelineno-3-37" name="__codelineno-3-37" href="#__codelineno-3-37"></a>    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-3-38"><a id="__codelineno-3-38" name="__codelineno-3-38" href="#__codelineno-3-38"></a>    <span class="k">try</span><span class="p">:</span>
+</span><span id="__span-3-39"><a id="__codelineno-3-39" name="__codelineno-3-39" href="#__codelineno-3-39"></a>        <span class="c1"># Connect to Vector DB (Pinecone / Milvus / pgvector)</span>
+</span><span id="__span-3-40"><a id="__codelineno-3-40" name="__codelineno-3-40" href="#__codelineno-3-40"></a>        <span class="n">mock_results</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-3-41"><a id="__codelineno-3-41" name="__codelineno-3-41" href="#__codelineno-3-41"></a>            <span class="n">DocumentChunk</span><span class="p">(</span>
+</span><span id="__span-3-42"><a id="__codelineno-3-42" name="__codelineno-3-42" href="#__codelineno-3-42"></a>                <span class="n">chunk_id</span><span class="o">=</span><span class="s2">"doc_101_chunk_3"</span><span class="p">,</span>
+</span><span id="__span-3-43"><a id="__codelineno-3-43" name="__codelineno-3-43" href="#__codelineno-3-43"></a>                <span class="n">content</span><span class="o">=</span><span class="s2">"Snowflake handles dynamic tables through declarative SQL pipelines."</span><span class="p">,</span>
+</span><span id="__span-3-44"><a id="__codelineno-3-44" name="__codelineno-3-44" href="#__codelineno-3-44"></a>                <span class="n">similarity_score</span><span class="o">=</span><span class="mf">0.91</span><span class="p">,</span>
+</span><span id="__span-3-45"><a id="__codelineno-3-45" name="__codelineno-3-45" href="#__codelineno-3-45"></a>                <span class="n">source</span><span class="o">=</span><span class="s2">"snowflake_docs"</span>
+</span><span id="__span-3-46"><a id="__codelineno-3-46" name="__codelineno-3-46" href="#__codelineno-3-46"></a>            <span class="p">)</span>
+</span><span id="__span-3-47"><a id="__codelineno-3-47" name="__codelineno-3-47" href="#__codelineno-3-47"></a>        <span class="p">]</span>
+</span><span id="__span-3-48"><a id="__codelineno-3-48" name="__codelineno-3-48" href="#__codelineno-3-48"></a>        <span class="n">duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">perf_counter</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1000</span>
+</span><span id="__span-3-49"><a id="__codelineno-3-49" name="__codelineno-3-49" href="#__codelineno-3-49"></a>        <span class="k">return</span> <span class="n">SearchResponse</span><span class="p">(</span><span class="n">results</span><span class="o">=</span><span class="n">mock_results</span><span class="p">,</span> <span class="n">execution_time_ms</span><span class="o">=</span><span class="nb">round</span><span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</span><span id="__span-3-50"><a id="__codelineno-3-50" name="__codelineno-3-50" href="#__codelineno-3-50"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+</span><span id="__span-3-51"><a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a>        <span class="k">raise</span> <span class="n">HTTPException</span><span class="p">(</span>
+</span><span id="__span-3-52"><a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a>            <span class="n">status_code</span><span class="o">=</span><span class="n">status</span><span class="o">.</span><span class="n">HTTP_500_INTERNAL_SERVER_ERROR</span><span class="p">,</span>
+</span><span id="__span-3-53"><a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>            <span class="n">detail</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Retrieval failed: </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+</span><span id="__span-3-54"><a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a>        <span class="p">)</span>
+</span></code></pre></div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.c21346df.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -474,6 +474,34 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Learning Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Learning Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#video-walkthrough-table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Video Walkthrough: Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#navigation-guide" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1088,6 +1116,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tutorials/data_engineering_architectures_and_tooling/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architectures & Tooling Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1140,6 +1196,34 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-resources" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        📚 Learning Resources
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="📚 Learning Resources">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#video-walkthrough-table-of-contents" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Video Walkthrough: Table of Contents
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1223,6 +1307,66 @@
 
     Airflow -. schedules &amp; triggers .-&gt; Staging
     Airflow -. schedules &amp; triggers .-&gt; Marts</code></pre>
+<hr />
+<h2 id="learning-resources">📚 Learning Resources</h2>
+<p><a class="md-button md-button--primary" href="tutorials/elt_pipeline_video_walkthrough/">Video Walkthrough: ELT in 1 Hour</a>
+<a class="md-button" href="tutorials/data_engineering_architectures_and_tooling/">Data Engineering Architectures &amp; Tooling</a></p>
+<h3 id="video-walkthrough-table-of-contents">Video Walkthrough: Table of Contents</h3>
+<ol>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#the-big-picture">The Big Picture</a><ul>
+<li>ELT vs ETL: transform inside the warehouse</li>
+<li>Why the video uses the TPC-H sample data</li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#lesson-1-setting-up-snowflake-and-dbt">Lesson 1: Setting Up Snowflake and dbt</a> (1:35–7:52)<ul>
+<li>Warehouse, database, schema and role</li>
+<li>Separating compute from storage</li>
+<li>RBAC grants and least privilege</li>
+<li><code>profiles.yml</code> vs <code>dbt_project.yml</code></li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#lesson-2-dbt-project-config-and-packages">Lesson 2: dbt Project Config and Packages</a> (7:52–11:45)<ul>
+<li>Materializations: view vs table</li>
+<li>Folder-level config</li>
+<li>Packages: <code>dbt_utils</code> and <code>dbt deps</code></li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#lesson-3-sources-and-staging-models">Lesson 3: Sources and Staging Models</a> (11:45–17:41)<ul>
+<li><code>source()</code> vs hard-coded table names</li>
+<li>What the staging layer is for</li>
+<li>Grain and surrogate keys</li>
+<li>Source tests</li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#lesson-4-transformed-models-and-macros">Lesson 4: Transformed Models and Macros</a> (17:41–24:23)<ul>
+<li>Layers: intermediate, fact and mart</li>
+<li><code>ref()</code> and the DAG</li>
+<li>Aggregating before joining</li>
+<li>Macros, Jinja and DRY</li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#lesson-5-generic-and-singular-tests">Lesson 5: Generic and Singular Tests</a> (24:23–29:35)<ul>
+<li>Tests return bad rows</li>
+<li>Generic tests in YAML</li>
+<li>Singular tests in SQL</li>
+<li><code>severity: warn</code> and <code>dbt build</code></li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#lesson-6-deploying-with-airflow">Lesson 6: Deploying with Airflow</a> (29:35–end)<ul>
+<li>Why orchestrate</li>
+<li>Astro CLI and Docker</li>
+<li>A separate virtual environment for dbt</li>
+<li>Cosmos: one Airflow task per model</li>
+<li>Airflow connections and DAG settings</li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#key-takeaways">Key Takeaways</a><ul>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#gotchas-in-the-notion-code">Gotchas in the Notion code</a></li>
+</ul>
+</li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#homework">Homework</a></li>
+<li><a href="tutorials/elt_pipeline_video_walkthrough/#self-check-questions">Self-Check Questions</a></li>
+</ol>
 <hr />
 <h2 id="navigation-guide">🧭 Navigation Guide</h2>
 <ul>
