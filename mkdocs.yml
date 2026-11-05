@@ -69,3 +69,4 @@ nav:
 
   - Tutorials:
       - "Video Walkthrough: ELT in 1 Hour": tutorials/elt_pipeline_video_walkthrough.md
+      - "Architectures & Tooling Reference": tutorials/data_engineering_architectures_and_tooling.md

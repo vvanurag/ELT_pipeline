@@ -56,7 +56,7 @@ ELT (Modern Cloud)
 
 ---
 
-## 3. The Medallion Architecture (Bronze $\rightarrow$ Silver $\rightarrow$ Gold)
+## 3. The Medallion Architecture (Bronze → Silver → Gold)
 
 ```
 [ Raw Sources ]
